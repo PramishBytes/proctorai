@@ -53,6 +53,47 @@ class Exam(models.Model):
 
     def __str__(self):
         return f"{self.exam_name} - {self.student.name}"
+    
+
+
+class Question(models.Model):
+    QUESTION_TYPES = (
+        ('mcq', 'Multiple Choice'),
+        ('descriptive', 'Descriptive'),
+    )
+    question_text = models.TextField()
+    question_type = models.CharField(max_length=20, choices=QUESTION_TYPES)
+    option1 = models.CharField(max_length=255, blank=True, null=True)
+    option2 = models.CharField(max_length=255, blank=True, null=True)
+    option3 = models.CharField(max_length=255, blank=True, null=True)
+    option4 = models.CharField(max_length=255, blank=True, null=True)
+    correct_answer = models.CharField(max_length=255)
+    difficulty = models.CharField(max_length=10)
+
+    QUESTION_TYPES = (
+        ('mcq', 'Multiple Choice'),
+        ('descriptive', 'Descriptive'),
+    )
+    DIFFICULTY_LEVELS = (
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    )
+
+    question_text = models.TextField()
+    question_type = models.CharField(max_length=20, choices=QUESTION_TYPES)
+    option1 = models.CharField(max_length=255, blank=True, null=True)
+    option2 = models.CharField(max_length=255, blank=True, null=True)
+    option3 = models.CharField(max_length=255, blank=True, null=True)
+    option4 = models.CharField(max_length=255, blank=True, null=True)
+    correct_answer = models.CharField(max_length=255, blank=True, null=True)
+    difficulty = models.CharField(max_length=10, choices=DIFFICULTY_LEVELS)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.question_text
+
+
 
 class CheatingEvent(models.Model):
     student = models.ForeignKey(
