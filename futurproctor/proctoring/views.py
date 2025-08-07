@@ -13,6 +13,8 @@ from django.core.files.base import ContentFile  # Handling in-memory file storag
 import cv2
 import io
 from PIL import Image
+from django.contrib.auth import logout
+
 
 # Models
 from .models import Student, Exam, CheatingEvent, CheatingImage, CheatingAudio  # Importing custom models
@@ -501,9 +503,9 @@ def exam(request):
 
     # Load exam questions from the JSON file
     try:
-        # with open("D://Futurproctor//futurproctor//proctoring//dummy_data//ai.json") as file:
-            # data = json.load(file)
-        questions = []
+        with open("/home/pramiz/Desktop/AI-Based-online-exam-proctoring-System/futurproctor/proctoring/dummy_data/ai.json") as file:
+            data = json.load(file)
+        questions = data.get("questions", [])
     except FileNotFoundError:
         return HttpResponse("Error: Questions file not found!", status=404)
     except json.JSONDecodeError:
@@ -533,15 +535,14 @@ def submit_exam(request):
 
         # Load questions from ai.json
         try:
-            # with open('D:\\Futurproctor\\futurproctor\\proctoring\\dummy_data\\ai.json', 'r') as file:
-                #  data = json.load(file)
-                data =[]
+            with open('/home/pramiz/Desktop/AI-Based-online-exam-proctoring-System/futurproctor/proctoring/dummy_data/ai.json', 'r') as file:
+                data = json.load(file)
         except FileNotFoundError:
             return HttpResponse("Error: Questions file not found!", status=404)
         except json.JSONDecodeError:
             return HttpResponse("Error: Failed to parse the questions file!", status=400)
 
-        questions = data
+        questions = data.get('questions', [])
         total_questions = len(questions)
         correct_answers = 0
 
